@@ -7,6 +7,9 @@ ruby '2.7.2'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
+
+gem 'fly-multiregion', git: "https://github.com/mrkurt/fly-rails"
+
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets

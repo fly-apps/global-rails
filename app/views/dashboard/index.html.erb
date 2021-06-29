@@ -1,74 +1,101 @@
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-
-
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-
-<div class="bg-white shadow overflow-hidden sm:rounded-lg" data-controller="timings">
+<section class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <h1 class="font-heading text-navy text-3xl mb-6">
+    Current Request
+  </h1>
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg" data-controller="timings">
   <%
-    regions = %w{ ord ams scl syd nrt }
+    regions = %w{ ord lax ams scl syd nrt }
     regions.push("local") if Rails.env == "development"
   %>
-  <div>
-    <div class="border-b border-gray-200">
-      <nav class="-mb-px flex space-x-8 px-4" aria-label="Tabs">
-        <div class="font-medium px-2 py-2">Region:</div>
-        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-        <% regions.each do |r| %>
-        <%
-          style = "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-          style = "border-indigo-500 text-indigo-600" if r == FlyGlobal.current_region
-        %>
-        <a href="/regions/<%= r %>" class="<%= style %> px-1 py-2" data-turbolinks="false">
-          <%= r %>
-        </a>
-        <% end %>
-      </nav>
-    </div>
-  </div>
-
-  <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-    <dl class="sm:divide-y sm:divide-gray-200">
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">
+    <div class="flex justify-between items-center flex-wrap bg-white shadow-lg overflow-hidden rounded-2xl relative px-2 pb-2">
+      <nav class="hidden sm:flex space-x-2 text-sm font-bold tracking-wide relative pl-3" aria-label="Tabs">
+      <% regions.each do |r| %>
+      <%
+        style = "text-navy transition-colors whitespace-nowrap rounded-lg px-2 py-1 hover:bg-violet-100 hover:text-violet-600"
+        if r == FlyGlobal.current_region
+          style = "bg-navy text-white pointer-events-none whitespace-nowrap rounded-lg px-2 py-1" 
+        end
+      %>
+      <a 
+        href="/regions/<%= r %>" 
+        class="<%= style %>" 
+        data-turbolinks="false"
+      >
+        <%= r.upcase %>
+      </a>
+      <% end %>
+    </nav>
+    <%= form_for TimingResult.new  do |f| %>
+      <%= f.hidden_field :vm_region, value: ENV['FLY_REGION'] || 'local' %>
+      <%= f.hidden_field :method, value: request.method %>
+      <%= f.hidden_field :url, value: request.fullpath %>
+      <%= f.hidden_field :request_start_at, value: request_start_at %>
+      <%= f.hidden_field :request_dispatch_at, value: request_dispatch_at %>
+      <%= f.hidden_field :is_replay, value: ENV['FLY_REGION'] != ENV['FLY_PRIMARY_REGION'] %>
+      <input type="hidden" name="timing_result[browser_timings]" data-timings-target="timingInput">
+      <button type="submit" type="submit" class="inline-flex items-center px-4 py-2 mx-2 mt-2 mb-5 relative top-1 rounded-lg sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-violet-600">
+        Record Results
+      </button>
+    <% end %>
+    <dl class="font-medium w-full">
+      <div class="bg-gray-50 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
           Connection&nbsp;Region
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= request.headers['Fly-Region'] || '?' %>
+        <dd class="flex items-center mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold ">
+          <%
+            r = request.headers['Fly-Region']
+            r = 'ord' if r == 'chi'
+            r = 'ewr' if r == 'lga'
+          %>
+          <img src="https://fly.io/ui/images/<%= r || 'ord' %>.svg" style="width:20px;" class= "mr-2 rounded-full"/>
+          <%= r || '?' %>
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">
-          Rails Region
+      <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
+          Rails&nbsp;Region
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <dd class="flex items-center mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold">
+          <img src="https://fly.io/ui/images/<%= ENV['FLY_REGION'] || 'scl' %>.svg" style="width:20px;" class= "mr-2 rounded-full"/>
+
           <%= ENV['FLY_REGION'] || '?' %>
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">
+      <div class="bg-gray-50 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
           Response Time
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" data-timings-target="responseEnd">
+        <dd 
+          data-timings-target="responseEnd"
+          class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold"
+        >
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">
+      <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
           Replay Time
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-          <%= replay_overhead %>ms
+        <dd class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold">
+          <% if ENV['FLY_REGION'] != ENV['PRIMARY_REGION'] %>
+            <%= replay_overhead %>ms
+          <% else %>
+            -
+          <% end %>
         </dd>
       </div>
-      <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-sm font-medium text-gray-500">
+      <div class="bg-gray-50 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
           TLS Time
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" data-timings-target="secureConnectionStart">
+        <dd
+          data-timings-target="secureConnectionStart"
+          class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold"
+        >
         </dd>
       </div>
     </dl>
   </div>
-</div>
+</section>
 
-  </div>
-</div>
+<%= render partial: "dashboard/timing_results" %>

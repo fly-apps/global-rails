@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/mrkurt/fly-rails
+  revision: f5e1900f046237ac4d4a4760983d9ffa10746e3d
+  specs:
+    fly-multiregion (0.0.1)
+      railties (>= 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,6 +100,10 @@ GEM
     nokogiri (1.11.7)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    nokogiri (1.11.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.11.7-x86_64-linux)
+      racc (~> 1.4)
     pg (1.2.3)
     puma (5.3.2)
       nio4r (~> 2.0)
@@ -185,6 +196,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
+  fly-multiregion!
   jbuilder (~> 2.7)
   listen (~> 3.3)
   pg (~> 1.1)

@@ -1,0 +1,63 @@
+<%
+  results = TimingResult.order(id: :desc).limit(100)
+%>
+
+<section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+  <h1 class="font-heading text-navy text-2xl mb-5">
+    Recorded results
+  </h1>
+  <div class="mt-5 rounded-2xl bg-white overflow-hidden shadow-lg px-2">
+    <% results.each do |r| %>
+    <dl class="grid grid-cols-1 md:grid-cols-3 divide-y divide-gray-200 md:divide-y-0">
+      <div class="p-5">
+        <dt class="font-medium text-sm">
+          Location
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-center text-xl font-semibold text-violet-600">
+            <%
+              rg = r.edge_region
+              rg = 'ord' if rg == 'chi'
+              rg = 'ewr' if rg == 'lga'
+              rg = 'ord' if rg == 'local'
+            %>
+            <img src="https://fly.io/ui/images/<%= rg %>.svg" style="width:20px;" class= "mr-2 rounded-full"/> <%= r.edge_region %>
+            <svg role="img" class="opacity-50 mx-2" style="pointer-events: none; width: 20px; height: auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <g bufferred-rendering="static">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </g>
+            </svg>
+            <img src="https://fly.io/ui/images/<%= r.vm_region || 'scl' %>.svg" style="width:20px;" class= "mr-2 rounded-full"/>
+            <%= r.vm_region || 'scl' %>
+          </div>
+        </dd>
+      </div>
+      <div class="p-5">
+        <dt class="font-medium text-sm">
+          Response Time
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-baseline text-xl font-semibold text-violet-600">
+            <%= r.browser_timings['responseEnd'].round %>ms
+          </div>
+        </dd>
+      </div>
+
+      <div class="p-5">
+        <dt class="font-medium text-sm">
+          Replay Time
+        </dt>
+        <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+          <div class="flex items-baseline text-xl font-semibold text-violet-600">
+            <% if r.is_replay? %>
+              <%= r.request_dispatch_at.to_i - r.request_start_at.to_i %>ms
+            <% else %>
+              -
+            <% end %>
+          </div>
+        </dd>
+      </div>
+    </dl>
+    <% end %>
+</div>

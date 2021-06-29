@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = ["total", "connectEnd", "responseEnd", "secureConnectionStart"];
+  static targets = ["total", "connectEnd", "responseEnd", "secureConnectionStart", "timingInput"];
   connect() {
     let t = performance.getEntriesByType("navigation")
     if(t && t.length > 0){
@@ -14,9 +14,10 @@ export default class extends Controller {
       t = {}
 
       for(const k in timing){
-        console.log(k)
+        //console.log(k)
         if(!k) continue;
         let v = timing[k]
+        if(typeof v !== 'number') continue;
         if(typeof v === 'number' && v != 0){
           let oldval = v
           v = v - s
@@ -42,6 +43,8 @@ export default class extends Controller {
     }else{
       this.secureConnectionStartTarget.textContent = ' - '
     }
+    
+    this.timingInputTarget.value = JSON.stringify(t)
   }
 }
 

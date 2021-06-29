@@ -11,10 +11,14 @@ kill_timeout = 5
     RAILS_ENV="production"
     RAILS_SERVE_STATIC_FILES = "true"
 
+[deploy]
+  release_command = "rake db:migrate"
+
 [env]
   PORT = "8080"
   RAILS_ENV = "production"
   RAILS_SERVE_STATIC_FILES = "true"
+  PRIMARY_REGION = "scl"
 
 [experimental]
   allowed_public_ports = []
