@@ -8,6 +8,7 @@ class TimingResultsController < ApplicationController
 
     p[:browser_timings] = JSON.parse(browser_timings)
     p[:edge_region] = request.headers['Fly-Region'] || 'local'
+    p[:user_agent] = request.headers['User-Agent']
 
     result = TimingResult.create!(p)
 

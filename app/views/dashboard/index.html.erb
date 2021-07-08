@@ -76,7 +76,7 @@
           Replay Time
         </dt>
         <dd class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold">
-          <% if ENV['FLY_REGION'] != r %>
+          <% if ENV['FLY_REGION'] != r || Rails.env == "development" %>
             <%= replay_overhead %>ms
           <% else %>
             -
@@ -91,6 +91,14 @@
           data-timings-target="secureConnectionStart"
           class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold"
         >
+        </dd>
+      </div>
+      <div class="bg-gray-50 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt>
+          Browser
+        </dt>
+        <dd class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold">
+        <%= browser_description %>
         </dd>
       </div>
     </dl>

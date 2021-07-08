@@ -41,20 +41,21 @@
           <div class="flex items-baseline text-xl font-semibold text-violet-600">
             <%= r.browser_timings['responseEnd'].round %>ms
           </div>
+          <% if r.is_replay? || Rails.env == 'development' %>
+            <div class="flex items-baseline font-medium text-sm">
+              (<%= r.request_dispatch_at.to_i - r.request_start_at.to_i %>ms before replay)
+            </div>
+          <% end %>
         </dd>
       </div>
 
       <div class="p-5">
         <dt class="font-medium text-sm">
-          Replay Time
+          Browser
         </dt>
         <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
           <div class="flex items-baseline text-xl font-semibold text-violet-600">
-            <% if r.is_replay? %>
-              <%= r.request_dispatch_at.to_i - r.request_start_at.to_i %>ms
-            <% else %>
-              -
-            <% end %>
+            <%= browser_description(r.user_agent.to_s) %>
           </div>
         </dd>
       </div>
