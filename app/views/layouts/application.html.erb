@@ -11,8 +11,11 @@
     />
     <link rel="stylesheet" href="https://fly.io/ui/stylesheets/application.css" media="all" data-turbolinks-track="reload">
 
-
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= render "shared/fonts" %>
+    <script type="text/javascript">
+      loadFont("fly-", "<%= asset_path("https://fly.io/ui/stylesheets/fonts.css") %>")
+    </script>
   </head>
 
 <body class="relative w-full h-full bg-gray-900 antialiased text-gray-500">
