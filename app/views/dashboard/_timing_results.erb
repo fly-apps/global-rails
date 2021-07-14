@@ -7,8 +7,8 @@
     Recorded results
   </h1>
   <div class="mt-5 rounded-2xl bg-white overflow-hidden shadow-lg px-2">
-    <% results.each do |r| %>
-    <dl class="grid grid-cols-1 md:grid-cols-3 divide-y divide-gray-200 md:divide-y-0">
+    <% results.each_with_index do |r, i| %>
+    <dl class="<%= i.odd? ? "" : "bg-gray-50 rounded-lg " %>grid grid-cols-1 md:grid-cols-3 divide-y divide-gray-200 md:divide-y-0">
       <div class="p-5">
         <dt class="font-medium text-sm">
           Location
