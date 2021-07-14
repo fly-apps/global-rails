@@ -9,6 +9,7 @@ module ApplicationHelper
   def request_dispatch_at
     ds = request.headers['Fly-Dispatch-Start']
     ds = 't=1625758614845143;instance=f128b7e0' if ds.blank?
+    ds = ds.split(",").map(&:strip).last
     d = Hash[ds.split(";").map(&:strip).map{|f| f.split("=", 2) }]
     ds = d['t'].to_f / 1000
     ds.round(3)

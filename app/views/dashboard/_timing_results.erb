@@ -43,7 +43,7 @@
           </div>
           <% if r.is_replay? || Rails.env == 'development' %>
             <div class="flex items-baseline font-medium text-sm">
-              (<%= r.request_dispatch_at.to_i - r.request_start_at.to_i %>ms before replay)
+              (<%= r.request_dispatch_at.to_f - r.request_start_at.to_f %>ms before replay)
             </div>
           <% end %>
         </dd>

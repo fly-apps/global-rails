@@ -1,9 +1,9 @@
 GIT
-  remote: https://github.com/mrkurt/fly-rails
-  revision: f5e1900f046237ac4d4a4760983d9ffa10746e3d
+  remote: https://github.com/superfly/fly-ruby.git
+  revision: 71d142bd008f5fdbde57db976ae358a67bba1993
   specs:
-    fly-multiregion (0.0.1)
-      railties (>= 5.0)
+    fly-ruby (0.1.0)
+      rack (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -198,7 +198,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   device_detector
-  fly-multiregion!
+  fly-ruby!
   jbuilder (~> 2.7)
   listen (~> 3.3)
   pg (~> 1.1)
