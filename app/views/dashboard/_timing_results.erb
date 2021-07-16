@@ -1,7 +1,6 @@
 <%
   results = TimingResult.order(id: :desc).limit(100)
 %>
-
 <section class="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
   <h1 class="font-heading text-navy text-2xl mb-5">
     Recorded results
@@ -44,7 +43,7 @@
           </div>
           <% if r.is_replay? || Rails.env == 'development' %>
             <div class="flex items-baseline font-medium text-sm">
-              (<%= r.request_dispatch_at.to_f - r.request_start_at.to_f %>ms before replay)
+              (<%= (r.request_dispatch_at.to_f - r.request_start_at.to_f).round(1) %>ms before replay)
             </div>
           <% end %>
         </dd>

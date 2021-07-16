@@ -1,3 +1,5 @@
+
+<!-- Fly-Dispatch-Start: %= request.headers['Fly-Dispatch-Start'] %> -->
 <section class="container mx-auto px-4 sm:px-6 lg:px-8">
   <h1 class="font-heading text-navy text-3xl mb-6">
     Current Request
@@ -40,6 +42,16 @@
       <button type="submit" type="submit" class="inline-flex items-center px-4 py-2 mx-2 mt-2 mb-5 relative top-1 rounded-lg sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-violet-600">
         Record Results
       </button>
+      <% if flash.notice.present? %>
+      <div class="absolute bg-navy text-white text-sm px-2 py-2 mt-0 top--1 rounded-lg">
+        <p class="py-2">
+        <%= flash.notice %>
+        </p>
+        <p class="py-2">
+        Latest in DB: #<%= TimingResult.last.id%>
+        </p>
+      </div>
+      <% end %>
     <% end %>
     <dl class="font-medium w-full">
       <div class="bg-gray-50 rounded-lg px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -101,11 +113,6 @@
         <%= browser_description %>
         </dd>
       </div>
-      <div>
-        <dt><code>Fly-Dispatch-Start</code></dt>
-        <dd class="mt-1 sm:mt-0 sm:col-span-2 text-navy font-bold">
-          <code><%= request.headers['Fly-Dispatch-Start'] %></code>
-        </dd>
       </div>
     </dl>
   </div>

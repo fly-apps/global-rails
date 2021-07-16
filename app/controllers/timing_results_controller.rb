@@ -12,7 +12,9 @@ class TimingResultsController < ApplicationController
 
     result = TimingResult.create!(p)
 
-    render "dashboard/index"
+    flash[:notice] = "Last write: ##{result.id}"
+
+    redirect_to "/"
   end
 
   def timing_result_params

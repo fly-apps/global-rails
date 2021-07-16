@@ -8,7 +8,7 @@ gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 
-gem 'fly-ruby', git: "https://github.com/superfly/fly-ruby.git"
+gem 'fly-ruby'
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
