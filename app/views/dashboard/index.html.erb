@@ -7,7 +7,7 @@
   <div data-controller="timings">
   <%
     regions = %w{ ord lax ams scl syd nrt }
-    regions.push("local") if Rails.env == "development"
+    regions = ["local", "pretend"] if Rails.env == "development"
 
     r = request.headers['Fly-Region']
     r = 'ord' if r == 'chi'

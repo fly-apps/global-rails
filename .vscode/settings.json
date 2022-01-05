@@ -1,7 +1,0 @@
-{
-  "editor.detectIndentation": false,
-  "editor.tabSize": 2,
-  "ruby.format": "rufo",
-  "ruby.useBundler": true,
-  "ruby.useLanguageServer": true
-}

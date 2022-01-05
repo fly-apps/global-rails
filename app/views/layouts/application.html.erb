@@ -9,9 +9,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="stylesheet" href="https://fly.io/ui/stylesheets/application.css" media="all" data-turbolinks-track="reload">
+    <%= stylesheet_link_tag "tailwind" %>
 
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_importmap_tags %>
     <%= render "shared/fonts" %>
     <script type="text/javascript">
       loadFont("fly-", "<%= asset_path("fonts.css") %>")
@@ -46,7 +46,9 @@
   </header>
   <main>
     <article class="min-h-screen bg-gray-100 py-16">
-      <%= yield %>
+    <main class="container mx-auto mt-28 px-5 flex">
+        <%= yield %>
+    </main>
     </article>
   </main>
 </body>
